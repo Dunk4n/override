@@ -1,0 +1,37 @@
+le programe level03 lis un nombre N sur son stdin
+il recupere R = 322424845 - N
+
+char code[] = "Q}|u`sfg~sf{}|a3"
+char pass[] = "Congratulations!"
+
+sur chaque char de code il XOR R
+
+et compare code a pass
+
+donc il faut que code[i] ^ R == pass[i]
+
+    117 = 86 ⊕ x
+    86 ⊕ 117 = 86 ⊕ (86 ⊕ x)
+    because ⊕ operator is associative, we can write that
+    86 ⊕ 117 = (86 ⊕ 86) ⊕ x
+    We know that a ⊕ a = 0 Thus
+    86 ⊕ 117 = 0 ⊕ x
+    We know that a ⊕ 0 = 0 ⊕ a = a Thus
+    86 ⊕ 117 = x
+
+donc:
+    R = 'Q' ^ 'C' = 18
+    R = code[i] ^ pass[i] = 18
+
+R = 18
+R = 322424845 - N
+18 = 322424845 - N
+N = 322424845 - 18 = 322424827
+
+./level03 
+***********************************
+*		level03		**
+***********************************
+Password:322424827
+$ cat /home/users/level04/.pass
+kgv3tkEb9h2mLkRsPkXRfc2mHbjMxQzvb2FrgKkf

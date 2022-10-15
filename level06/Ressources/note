@@ -1,0 +1,32 @@
+le binaire calcul un serial du Login
+et le compare avec celui rentre
+
+on refait la source du binaire source.c et on rajoute apres le calcule du serial:
+printf("calculated_serial = %u\n", calculated_serial);
+
+on test avec comme Login: abcdef
+$> ./recreated_level06
+***********************************
+*		level06		  *
+***********************************
+-> Enter Login: abcdef
+***********************************
+***** NEW ACCOUNT DETECTED ********
+***********************************
+-> Enter Serial: 0
+calculated_serial = 6232802
+
+donc le serial de abcdef est 6232802
+
+$> ./level06
+***********************************
+*		level06		  *
+***********************************
+-> Enter Login: abcdef
+***********************************
+***** NEW ACCOUNT DETECTED ********
+***********************************
+-> Enter Serial: 6232802
+Authenticated!
+$ cat /home/users/level07/.pass
+GbcPDRgsFK77LNnnuh7QyFYA2942Gp8yKj9KrWD8

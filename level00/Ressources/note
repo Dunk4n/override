@@ -1,0 +1,17 @@
+le binaire scan un password
+    scanf("%d",password);
+
+et il verifie si il est egale a 0x149c soit 5276
+    if (password[0] != 0x149c)
+
+on rentre 5276 ce qui nous donne acces a un shell avec les droit de level01
+    $> ./level00
+    ***********************************
+    * 	     -Level00 -		  *
+    ***********************************
+    Password:5276
+
+on affiche le fichier .pass avec le flag
+    cat /home/users/level01/.pass
+
+uSq2ehEGT6c9S24zbshexZQBXUGrncxn5sD5QfGL

