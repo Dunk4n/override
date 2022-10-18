@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VM_ID='192.168.56.6'
+VM_ID=$(cat ../../ip)
 if [ ! -z "$1" ]; then
     VM_ID="$1"
 fi

